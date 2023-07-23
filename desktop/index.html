@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>desktop</title>
+		<style type="text/css">
+			:root {
+				--window-z-index: auto;
+				--bar-height: 45px;
+				--icon-height: 60px;
+				--icon-width: 60px;
+			}
+
+			* {
+				border: 0px;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			div {
+				overflow: hidden;
+			}
+
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+			}
+
+			.icon {
+				position: absolute;
+				height: var(--icon-height);
+				width: var(--icon-width);
+			}
+
+			.windows {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				overflow: initial;
+				background-color: #FFFFFF;
+				border-radius: 5px;
+				box-shadow: 0px 0px 5px #000000;
+			}
+
+			._windows {
+				position: absolute;
+				top: 25px;
+				left: 10px;
+				height: calc(100% - 35px);
+				width: calc(100% - 20px);
+				overflow: initial;
+				z-index: var(--window-z-index);
+			}
+
+			._windows iframe {
+				position: absolute;
+				top: 20px;
+				height: calc(100% - 20px);
+				width: 100%;
+			}
+
+			.winMove {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				overflow: initial;
+			}
+
+			.win_h {
+				position: absolute;
+				height: 25px;
+				width: calc(100% - 90px);
+				top: 0px;
+				left: 0px;
+				border-bottom: 1px #000000 inherit;
+			}
+
+			.win_h p {
+				cursor: default;
+				top: 5px;
+				left: 25px;
+			}
+
+			.win_b,
+			.win_t {
+				position: absolute;
+				height: 10px;
+				width: calc(100% - 10px);
+				right: 10px;
+				cursor: n-resize;
+			}
+
+			.win_t {
+				top: -10px;
+			}
+
+			.win_b {
+				bottom: -10px;
+			}
+
+			.win_l,
+			.win_r {
+				position: absolute;
+				height: calc(100% - 10px);
+				top: 10px;
+				width: 10px;
+				cursor: e-resize;
+			}
+
+			.win_l {
+				left: -10px;
+			}
+
+			.win_r {
+				right: -10px;
+			}
+
+			.win_rt,
+			.win_rb,
+			.win_lt,
+			.win_lb {
+				position: absolute;
+				height: 10px;
+				width: 10px;
+			}
+
+			.win_rt {
+				top: -10px;
+				right: -10px;
+				cursor: ne-resize;
+			}
+
+			.win_rb {
+				bottom: -10px;
+				right: -10px;
+				cursor: se-resize;
+			}
+
+			.win_lt {
+				top: -10px;
+				left: -10px;
+				cursor: nw-resize;
+			}
+
+			.win_lb {
+				bottom: -10px;
+				left: -10px;
+				cursor: sw-resize;
+			}
+
+			.winButton {
+				position: absolute;
+				background-color: #FFF;
+				right: 0px;
+				top: 0px;
+				width: 80px;
+				height: 25px;
+				border-radius: 5px;
+			}
+
+			.winButton div {
+				float: right;
+				width: 25px;
+				height: 25px;
+			}
+
+			#bar {
+				position: absolute;
+				bottom: 0px;
+				height: var(--bar-height);
+				width: 100%;
+				z-index: 9999999;
+				background-color: rgba(0, 0, 0, 0.7);
+				user-select: none;
+			}
+
+			#window {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				position: absolute;
+				top: 0px;
+				z-index: 1;
+			}
+
+			.winIcon {
+				position: absolute;
+				height: 20px;
+				width: 20px;
+				top: 5px;
+				left: 5px;
+			}
+
+			.winIcon embed {
+				height: 100%;
+				width: 100%;
+			}
+
+			#icon {
+				height: calc(100% - var(--bar-height));
+				width: 100%;
+				user-select: none;
+			}
+
+			.icon,
+			#iconleft,
+			#iconright,
+			.barIcon div,
+			#home div,
+			.winButton div {
+				transition: 0.5s;
+			}
+
+			#icon div embed {
+				position: relative;
+				height: 80%;
+				width: 80%;
+				top: 10%;
+				left: 10%;
+			}
+
+			#iconleft,
+			#iconright {
+				height: calc(100% - var(--bar-height));
+				width: 30px;
+				position: absolute;
+				top: 0px;
+			}
+
+			#iconright {
+				right: 0;
+			}
+
+			#choose {
+				z-index: 1;
+			}
+
+			#bar div {
+				float: left;
+				height: var(--bar-height);
+				width: var(--bar-height);
+				background-color: rgba(0, 0, 0, 0);
+				overflow: hidden;
+			}
+
+			#bar div div.barIcon {
+				position: absolute;
+				top: 0px;
+				height: var(--bar-height);
+				width: var(--bar-height);
+			}
+
+			#bar div embed {
+				position: absolute;
+				top: 0px;
+				height: 35px;
+				width: 35px;
+				margin: 5px;
+			}
+
+			#bar div.barList {
+				overflow-y: inherit;
+				position: absolute;
+				height: unset;
+				max-height: 500px;
+				top: unset;
+				bottom: var(--bar-height);
+				background-color: rgba(200, 200, 200, 0.3);
+			}
+
+			#bar div.barList div {
+				overflow-x: hidden;
+				position: unset;
+				float: left;
+				height: 30px;
+				width: unset;
+			}
+
+			#bar div.barList p {
+				width: unset;
+			}
+
+			#home div {
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="window">
+			<div id="choose" style="position: absolute;display: none;background-color: rgba(0,0,0,0.3);"></div>
+			<div id="icon">
+				<div id="iconleft"></div>
+				<div id="iconright"></div>
+			</div>
+		</div>
+		<nav id="bar">
+			<div id="home">
+				<div></div>
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="height: 35px;width: 35px;">
+					<circle cx="22.5" cy="22.5" r="10" stroke="#ffffff" stroke-width="4" fill="rgba(0,0,0,0)" />
+				</svg>
+			</div>
+		</nav>
+		<script>
+			var root = document.documentElement;
+			var desktop = {
+				icon: {
+					reload: function() {},
+					obj: [],
+					onchoose: {},
+					onchooseCount: 0,
+					showPage: 1,
+					_showPage: 1,
+				},
+				windows: {
+					hide: function() {},
+					show: function() {},
+					html: '',
+					obj: {},
+					top: 0,
+					count: 0,
+					onshowCount: 0
+				},
+				bar: {
+					obj: {},
+					barCount: 0
+				},
+				css: {
+					openWindowHeight: 200,
+					openWindowWidth: 300,
+					barHeight: 45,
+					iconheight: 60,
+					iconwidth: 60,
+					iconheight: 60,
+					iconborder: 15
+				},
+				findWindow: (id) => {
+					return desktop.windows.obj[id];
+				}
+			};
+			Object.defineProperty(desktop.icon, 'showPage', {
+				get: () => {
+					if (desktop.icon._showPage == 0) {
+						desktop.icon._showPage = 1;
+					}
+					return desktop.icon._showPage;
+				},
+				set: (num) => {
+					desktop.icon._showPage = num;
+					iconSort();
+				}
+			});
+
+			function get(url, fun) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = () => {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						fun(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("GET", url, true);
+				xmlhttp.send();
+			}
+
+			function post(url, fun, sand) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = () => {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						fun(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("POST", url, true);
+				xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.send(sand);
+			}
+			get('window.html', (g) => {
+				desktop.windows.html = g;
+			});
+			var bodyEvent = {};
+
+			function bodyAddEvent(eventName, fun) {
+				if (bodyEvent[eventName] == null) {
+					bodyEvent[eventName] = [];
+					document.body.addEventListener(eventName, function(e) {
+						bodyEvent[eventName].forEach(function(get) {
+							get(e);
+						});
+					});
+				}
+				bodyEvent[eventName].push(fun);
+			}
+
+			function boderMousedown(target, win, move) {
+				win.moveX = target.pageX;
+				win.moveY = target.pageY;
+				win.toTop();
+				root.style.setProperty('--window-z-index', '-1');
+				target.preventDefault();
+			}
+
+			function mouseOverFun(dom) {
+				dom.addEventListener('mouseenter', () => {
+					dom.style.backgroundColor = 'rgba(173, 173, 173, 0.3)';
+				});
+				dom.addEventListener('mouseleave', () => {
+					dom.style.backgroundColor = 'rgba(0,0,0,0)';
+				});
+			}
+
+			function addBorder(win) {
+				const _win = win.node.firstChild;
+				win.fh = 0;
+				win.fw = 0;
+				_win.addEventListener('mousedown', (e) => {
+					win.fh = win.height;
+					win.fw = win.width;
+					e.stopPropagation();
+				});
+				bodyAddEvent('mouseup', function() {
+					win.move = false;
+					win.moveX = 0;
+					win.moveY = 0;
+					root.style.setProperty('--window-z-index', 'auto');
+				});
+				bodyAddEvent('mousemove', (target) => {
+					var moveFun = {
+						t: () => {
+							win.fh -= target.clientY - win.moveY;
+							if (win.fh >= 80) {
+								win.top += win.height - win.fh;
+								win.height = win.fh;
+							}
+							win.moveY = target.clientY;
+						},
+						r: () => {
+							win.fw += target.clientX - win.moveX;
+							if (win.fw >= 80) {
+								win.width = win.fw;
+							}
+							win.moveX = target.clientX;
+						},
+						b: () => {
+							win.fh += target.clientY - win.moveY;
+							if (win.fh >= 80) {
+								win.height = win.fh;
+							}
+							win.moveY = target.clientY;
+						},
+						l: () => {
+							win.fw -= target.clientX - win.moveX;
+							if (win.fw >= 80) {
+								win.left += win.width - win.fw;
+								win.width = win.fw;
+							}
+							win.moveX = target.clientX;
+						}
+					}
+					switch (win.move) {
+						case 't':
+							moveFun.t();
+							break;
+						case 'b':
+							moveFun.b();
+							break;
+						case 'l':
+							moveFun.l();
+							break;
+						case 'r':
+							moveFun.r();
+							break;
+						case 'rt':
+							moveFun.r();
+							moveFun.t();
+							break;
+						case 'rb':
+							moveFun.r();
+							moveFun.b();
+							break;
+						case 'lt':
+							moveFun.l();
+							moveFun.t();
+							break;
+						case 'lb':
+							moveFun.l();
+							moveFun.b();
+							break;
+					}
+				});
+				var div_t = document.createElement('div');
+				div_t.className = "win_t";
+				div_t.addEventListener('mousedown', function(target) {
+					win.move = 't';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_t);
+				var div_b = document.createElement('div');
+				div_b.className = "win_b";
+				div_b.addEventListener('mousedown', function(target) {
+					win.move = 'b';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_b);
+				var div_l = document.createElement('div');
+				div_l.className = "win_l";
+				div_l.addEventListener('mousedown', function(target) {
+					win.move = 'l';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_l);
+				var div_r = document.createElement('div');
+				div_r.className = "win_r";
+				div_r.addEventListener('mousedown', function(target) {
+					win.move = 'r';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_r);
+				var div_rt = document.createElement('div');
+				div_rt.className = "win_rt";
+				div_rt.addEventListener('mousedown', function(target) {
+					win.move = 'rt';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_rt);
+				var div_rb = document.createElement('div');
+				div_rb.className = "win_rb";
+				div_rb.addEventListener('mousedown', function(target) {
+					win.move = 'rb';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_rb);
+				var div_lt = document.createElement('div');
+				div_lt.className = "win_lt";
+				div_lt.addEventListener('mousedown', function(target) {
+					win.move = 'lt';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_lt);
+				var div_lb = document.createElement('div');
+				div_lb.className = "win_lb";
+				div_lb.addEventListener('mousedown', function(target) {
+					win.move = 'lb';
+					boderMousedown(target, win, _win);
+				});
+				_win.appendChild(div_lb);
+			}
+
+			function addBarIcon(win, icon, iconId) {
+				if (desktop.bar.obj[iconId] == undefined) {
+					++desktop.bar.barCount;
+					var barIcon = document.createElement('div');
+					barIcon.className = 'barIcon';
+					var barBackground = document.createElement('div');
+					barIcon.appendChild(barBackground);
+					var iconDOM = document.createElement('div');
+					iconDOM.appendChild(icon.makeIcon());
+					barIcon.appendChild(iconDOM);
+					document.getElementById('bar').appendChild(barIcon);
+					var barIconData = {
+						background: barBackground,
+						node: barIcon,
+						wins: [],
+						mouseon: false,
+						onshow: 0,
+						barNumber: desktop.bar.barCount,
+						listBool: false
+					};
+					var winListMenu = () => {
+						if (barIconData.listBool) {
+							return 0;
+						} else {
+							barIconData.listBool = true;
+						}
+						var list = document.createElement('div');
+						list.className = 'barList'
+						for (var i = 0, c = barIconData.wins.length; i < c; ++i) {
+							const sw = document.createElement('div');
+							const swin = desktop.findWindow(barIconData.wins[i].windowNumber + '');
+							sw.addEventListener('click', (e) => {
+								swin.node.style.display = 'block';
+								swin.toTop();
+								e.preventDefault();
+							});
+							sw.addEventListener('mouseenter', (e) => {
+								sw.style.backgroundColor = 'rgba(200, 200, 200, 0.3)';
+								e.preventDefault();
+							});
+							sw.addEventListener('mouseleave', (e) => {
+								sw.style.backgroundColor = 'rgba(0,0,0,0)';
+								e.preventDefault();
+							});
+							var swtitle = document.createElement('p');
+							swtitle.innerText = barIconData.wins[i].title;
+							sw.appendChild(swtitle);
+							list.appendChild(sw);
+						}
+						list.style.bottom = desktop.css.barHeight;
+						list.left = (barIconData.barNumber * desktop.css.barHeight) + (desktop.css.barHeight / 2) + 'px';
+						barIcon.appendChild(list);
+						list.childNodes.forEach((item, index) => {
+							if (item.clientWidth > list.clientWidth) {
+								list.style.width = item.clientWidth + 'px';
+							}
+							item.style.width = '100%';
+						});
+					}
+					barIcon.addEventListener('mouseenter', (e) => {
+						barIconData.mouseon = true;
+						barBackground.style.backgroundColor = 'rgba(200, 200, 200, 0.3)';
+						setTimeout(() => {
+							if (barIconData.mouseon && barIconData.listBool == false) {
+								winListMenu();
+							}
+						}, 500);
+						e.preventDefault();
+					});
+					barIcon.addEventListener('mouseleave', (e) => {
+						barIconData.mouseon = false;
+						barBackground.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+						setTimeout(() => {
+							if (barIconData.listBool) {
+								barIcon.removeChild(barIcon.lastChild);
+								barIconData.listBool = false;
+							}
+						}, 500);
+						e.preventDefault();
+					});
+					barIcon.addEventListener('click', (e) => {
+						if (barIconData.wins.length == 1 && barIconData.onshow == 0) {
+							desktop.findWindow(barIconData.wins[0].windowNumber + '').node.style.display = 'block';
+							++barIconData.onshow;
+						} else {
+							winListMenu();
+						}
+						e.preventDefault();
+					});
+					barIcon.onmousedown = (e) => {
+						e.preventDefault();
+					}
+					desktop.bar.obj[iconId] = barIconData;
+				}
+				var barObj = {
+						windowNumber: win.number,
+						title: win.title
+					}
+					++desktop.bar.obj[iconId].onshow;
+				desktop.bar.obj[iconId].wins.push(barObj);
+			}
+
+			function makeWindow(icon, iconId, title, height, width) {
+				++desktop.windows.count;
+				var _win = document.createElement('div');
+				var win_ = document.createElement('div');
+				var move = document.createElement('div');
+				move.className = 'winMove';
+				win_.appendChild(move);
+				win_.appendChild(_win);
+				var win = {
+					node: win_,
+					title: '',
+					number: desktop.windows.count,
+					barName: iconId,
+					move: false,
+					moveX: 0,
+					moveY: 0,
+					moveH: 0,
+					moveW: 0,
+					ifMax: false,
+					height: 0,
+					_height: 0,
+					width: 0,
+					_width: 0,
+					top: 0,
+					_top: 0,
+					left: 0,
+					_left: 0,
+					toTop: () => {
+						win_.style.zIndex = ++desktop.windows.top;
+					},
+					lodeSize: () => {
+						win.height = win_.clientHeight;
+						win.width = win_.clientWidth;
+						win.top = win_.offsetTop;
+						win.left = win_.offsetLeft;
+					}
+				}
+				Object.defineProperties(win, {
+					'height': {
+						configurable: true,
+						get: () => {
+							return win._height;
+						},
+						set: (i) => {
+							win._height = i;
+							win_.style.height = i + 'px';
+						}
+					},
+					'width': {
+						configurable: true,
+						get: () => {
+							return win._width;
+						},
+						set: (i) => {
+							win._width = i;
+							win_.style.width = i + 'px';
+						}
+					},
+					'top': {
+						configurable: true,
+						get: () => {
+							return win._top;
+						},
+						set: (i) => {
+							win._top = i;
+							win_.style.top = i + 'px';
+						}
+					},
+					'left': {
+						configurable: true,
+						get: () => {
+							return win._left;
+						},
+						set: (i) => {
+							win._left = i;
+							win_.style.left = i + 'px';
+						}
+					}
+				});
+				win.height = height || desktop.css.openWindowHeight;
+				win.width = width || desktop.css.openWindowWidth;
+				win_.className = 'windows';
+				_win.className = '_windows';
+				win.toTop();
+				win_.addEventListener('mousedown', (e) => {
+					if (win_.style.zIndex != desktop.windows.top) {
+						win.toTop();
+					}
+					e.preventDefault();
+				});
+				//添加窗口边框
+				var div_h = document.createElement('div');
+				var winIcon = document.createElement('div');
+				var winTitle = document.createElement('p');
+				Object.defineProperty(win, 'title', {
+					configurable: true,
+					get: () => {
+						return this._title;
+					},
+					set: (i) => {
+						this._title = i;
+						winTitle.innerText = i;
+					}
+				});
+				win.title = title;
+				winTitle.userSelect = false;
+				winTitle.style.position = 'absolute';
+				div_h.appendChild(winTitle);
+				winIcon.className = 'winIcon';
+				winIcon.appendChild(icon.makeIcon());
+				div_h.appendChild(winIcon);
+				div_h.className = "win_h";
+				div_h.addEventListener('mousedown', function(target) {
+					win.move = 'h';
+					boderMousedown(target, win, move);
+				});
+				move.appendChild(div_h);
+				bodyAddEvent('mousemove', (target) => {
+					if (win.move == 'h') {
+						if (win.ifMax) {
+							return 0
+						}
+						win.top = win.top + target.clientY - win.moveY;
+						win.left = win.left + target.clientX - win.moveX;
+						win.moveX = target.clientX;
+						win.moveY = target.clientY;
+					}
+				});
+				//添加窗口按钮
+				var winButton = document.createElement('div');
+				winButton.className = 'winButton';
+				var winMinimize = document.createElement('div');
+				var winMaximize = document.createElement('div');
+				var winClose = document.createElement('div');
+				winMinimize.innerHTML = '<svg style="height: 25px;width: 25px;">\
+			<line x1="8" y1="12.5" x2="17" y2="12.5" style="stroke:rgb(0,0,0);stroke-width:0.5"/>\
+			</svg>';
+				winMaximize.innerHTML = '<svg>\
+			<rect x="8" y="8" width="9" height="9" style="fill:rgba(0,0,0,0);stroke-width:0.4;stroke:rgb(0, 0, 0)"/>\
+			</svg>';
+				winClose.innerHTML = '<svg style="height: 25px;width: 25px;">\
+			<line x1="8" y1="8" x2="17" y2="17" style="stroke:rgb(0,0,0);stroke-width:0.5"/>\
+			<line x1="8" y1="17" x2="17" y2="8" style="stroke:rgb(0,0,0);stroke-width:0.5"/>\
+			</svg>';
+				mouseOverFun(winMinimize);
+				mouseOverFun(winMaximize);
+				mouseOverFun(winClose);
+				winMinimize.addEventListener('click', (e) => {
+					win_.style.display = 'none';
+					desktop.bar.obj[iconId].onshow--;
+					e.preventDefault();
+				});
+				var tomax = () => {
+					win.ifMax = true;
+					win_.style.height = 'calc(100% - ' + desktop.css.barHeight + 'px)';
+					win_.style.width = '100%';
+					win_.style.top = '0px';
+					win_.style.left = '0px';
+					winMaximize.onclick = towin;
+				}
+				var towin = () => {
+					win.ifMax = false;
+					win_.style.height = win.height + 'px';
+					win_.style.width = win.width + 'px';
+					win_.style.top = win.top + 'px';
+					win_.style.left = win.left + 'px';
+					winMaximize.onclick = tomax;
+				}
+				winMaximize.onclick = tomax;
+				winClose.addEventListener('click', () => {
+					win_.remove();
+					desktop.bar.obj[iconId].onshow--;
+					delete desktop.windows.obj[win.number + ''];
+					for (var i = 0, c = desktop.bar.obj[iconId].wins.length; i < c; ++i) {
+						if (desktop.bar.obj[iconId].wins[i].windowNumber == win.number) {
+							desktop.bar.obj[iconId].wins.splice(i, 1);
+						}
+					}
+					if (desktop.bar.obj[iconId].wins.length == 0) {
+						desktop.bar.obj[iconId].node.remove();
+						delete desktop.bar.obj[iconId];
+					}
+				});
+				winClose.addEventListener('mousedown', (e) => {
+					e.preventDefault();
+				});
+				winMaximize.addEventListener('mousedown', (e) => {
+					e.preventDefault();
+				});
+				winMinimize.addEventListener('mousedown', (e) => {
+					e.preventDefault();
+				});
+				winButton.appendChild(winClose);
+				winButton.appendChild(winMaximize);
+				winButton.appendChild(winMinimize);
+				win_.appendChild(winButton);
+				document.getElementById('window').appendChild(win_);
+				win.lodeSize();
+				desktop.windows.obj[win.number + ''] = win;
+				var docker = document.createElement('iframe');
+				docker.frameBorder = '0';
+				docker.srcdoc = desktop.windows.html;
+				_win.appendChild(docker);
+				docker.onload = () => {
+					docker.contentWindow.page.url = icon.url;
+					docker.contentWindow.page.win = win;
+				}
+				return win;
+			}
+
+			function openWindow(icon, iconName, title, height, width) {
+				const win = makeWindow(icon, iconName, title, height, width);
+				addBarIcon(win, icon, iconName);
+				addBorder(win);
+			}
+
+			function openTageWindow(icon, iconName, title, height, width) {
+
+			}
+
+			function loadIcon(name, pageName, url, type, iconUrl) {
+				var icon = {
+					node: document.createElement('div'),
+					url: url,
+					type: type,
+					name: name,
+					index: desktop.icon.obj.length,
+					_onchoose: false,
+					onchooseIndex: 0,
+					iconUrl: iconUrl,
+					makeIcon: () => {
+						var con = document.createElement('embed');
+						switch (type) {
+							case 'image':
+								con.setAttribute('type', 'image/jpg');
+								break;
+							case 'svg':
+								con.setAttribute('type', 'image/svg+xml');
+								break;
+						}
+						con.setAttribute('src', iconUrl);
+						return con;
+					}
+				}
+				var oc = () => {
+					desktop.icon.onchoose[icon.index] = icon;
+					icon.onchooseIndex = desktop.icon.onchooseCount;
+					++desktop.icon.onchooseCount;
+				}
+				Object.defineProperty(icon, 'onchoose', {
+					set: (i) => {
+						if (i != icon._onchoose) {
+							icon._onchoose = i;
+							if (i) {
+								icon.node.style.backgroundColor = 'rgba(173, 173, 173, 0.3)';
+								oc();
+							} else {
+								icon.node.style.backgroundColor = 'rgba(0,0,0,0)';
+								delete desktop.icon.onchoose[icon.index];
+								desktop.icon.onchooseCount--;
+							}
+						}
+						return icon._onchoose;
+					},
+					get: () => {
+						return icon._onchoose;
+					}
+				})
+				icon.node.className = "icon";
+				icon.node.setAttribute('context', name);
+				icon.node.appendChild(icon.makeIcon());
+				icon.node.onclick = (e) => {
+					if (icon._onchoose) {
+						openWindow(icon, name, pageName);
+						icon.onchoose = false;
+					} else {
+						icon._onchoose = true;
+						icon.node.style.backgroundColor = 'rgba(173, 173, 173, 0.6)';
+						oc();
+					}
+					e.stopPropagation();
+				}
+				icon.node.addEventListener('mouseenter', () => {
+					if (desktop.onchoose) {
+						return 0;
+					}
+					if (icon.onchoose) {
+						icon.node.style.backgroundColor = 'rgba(173, 173, 173, 0.6)';
+					} else {
+						icon.node.style.backgroundColor = 'rgba(173, 173, 173, 0.3)';
+					}
+				});
+				icon.node.addEventListener('mouseleave', () => {
+					if (icon.onchoose) {
+						icon.node.style.backgroundColor = 'rgba(173, 173, 173, 0.3)';
+					} else {
+						icon.node.style.backgroundColor = 'rgba(0,0,0,0)';
+					}
+				});
+				icon.node.addEventListener('mousedown', (e) => {
+					e.stopPropagation();
+				});
+				var c = () => {};
+				icon.choose = (s) => {
+					var node = icon.node;
+					var p = '';
+					var t = node.offsetTop;
+					var b = node.offsetTop + node.clientHeight;
+					var l = node.offsetLeft;
+					var r = node.offsetLeft + node.clientWidth;
+					var ct = desktop.chooseTop;
+					var cl = desktop.chooseLeft;
+					var ft = (y) => {
+						return y.clientY > t;
+					}
+					var fb = (y) => {
+						return y.clientY < b;
+					}
+					var fl = (x) => {
+						return x.clientX > l;
+					}
+					var fr = (x) => {
+						return x.clientX < r;
+					}
+					if (ct < t) {
+						p += 't';
+					} else if (ct > b) {
+						p += 'b';
+					}
+					if (cl < l) {
+						p += 'l';
+					} else if (cl > r) {
+						p += 'r';
+					}
+					switch (p) {
+						case 't':
+							c = ft;
+							break;
+						case 'b':
+							c = fb;
+							break;
+						case 'l':
+							c = fl;
+							break;
+						case 'r':
+							c = fr;
+							break;
+						case 'tl':
+							c = (e) => {
+								return ft(e) && fl(e);
+							}
+							break;
+						case 'tr':
+							c = (e) => {
+								return ft(e) && fr(e);
+							}
+							break;
+						case 'bl':
+							c = (e) => {
+								return fb(e) && fl(e);
+							}
+							break;
+						case 'br':
+							c = (e) => {
+								return fb(e) && fr(e);
+							}
+							break;
+					}
+					if (c(s)) {
+						icon.onchoose = true;
+					} else {
+						icon.onchoose = false;
+					}
+				}
+				bodyAddEvent('mousemove', (e) => {
+					if (desktop.onchoose) {
+						if (c(e)) {
+							icon.onchoose = true;
+						} else {
+							icon.onchoose = false;
+						}
+					}
+				});
+				document.getElementById('icon').appendChild(icon.node);
+				desktop.icon.obj.push(icon);
+			}
+
+			function iconLoader(iconList) {
+				iconList.forEach((item, index) => {
+					loadIcon(item.name, item.pageName, item.url, item.type, item.iconUrl);
+				});
+			}
+
+			function iconSort(b, w, h) {
+				var container = document.getElementById('icon');
+				var border;
+				var width;
+				var height;
+				var pagenumber = desktop.icon.showPage;
+				if (b) {
+					border = desktop.css.iconborder = b;
+				} else {
+					border = desktop.css.iconborder;
+				}
+				if (w) {
+					width = desktop.css.iconwidth = w;
+				} else {
+					width = desktop.css.iconwidth;
+				}
+				if (h) {
+					height = desktop.css.iconheight = h;
+				} else {
+					height = desktop.css.iconheight;
+				}
+				var iconxc = (container.clientWidth - 60) / (border + width);
+				var iconyc = (container.clientHeight + border) / (border + height);
+				iconxc = Math.floor(iconxc);
+				iconyc = Math.floor(iconyc);
+				var iconleft = (container.clientWidth - (iconxc * (border + width))) / 2;
+				var icontop = (container.clientHeight - (iconyc * (border + height))) / 2;
+				desktop.icon.showX = iconxc;
+				desktop.icon.showY = iconyc;
+				var pageMax = Math.floor(desktop.icon.obj.length / (iconxc * iconyc)) + 1;
+				if (pageMax < pagenumber) {
+					pagenumber = desktop.icon._showPage = pageMax;
+				}
+				var beg = 0;
+				var end = 0;
+				var sort = () => {
+					for (var i = beg; i < end; ++i) {
+						var icon = desktop.icon.obj[i].node;
+						var p = i - (iconyc * iconxc * (pagenumber - 1));
+						var y = i % iconyc;
+						var x = Math.floor(p / iconyc);
+						icon.style.top = (border * y) + height * y + icontop + 'px';
+						icon.style.left = (border * x) + width * x + iconleft + 'px';
+					}
+				}
+				switch (pagenumber) {
+					case 1: {
+						if (pageMax == 1) {
+							end = desktop.icon.obj.length;
+							sort();
+						} else {
+							end = (iconxc * iconyc);
+							sort();
+							beg = end;
+							end = desktop.icon.obj.length;
+							iconleft += width + border;
+							sort();
+						}
+						break;
+					}
+					case pageMax: {
+						end = (iconxc * iconyc) * (pagenumber - 1);
+						iconleft -= container.clientWidth;
+						sort();
+						beg = end;
+						end = desktop.icon.obj.length;
+						iconleft += container.clientWidth;
+						sort();
+						break;
+					}
+					default: {
+						end = (iconxc * iconyc) * (pagenumber - 1);
+						iconleft -= container.clientWidth;
+						sort();
+						beg = end;
+						end += (iconxc * iconyc);
+						iconleft += container.clientWidth;
+						sort();
+						beg = end;
+						end = desktop.icon.obj.length;
+						iconleft += width + border;
+						sort();
+					}
+				}
+			}
+			window.onload = function() {
+				if (window != window.top) {
+					window.top.location.href = window.location.href;
+				}
+				post('https://api.luoyilt.com/desktop/desktop.php', (g) => {
+					var get = JSON.parse(g);
+					var iconList = get['iconList'];
+					iconLoader(iconList);
+					iconSort();
+				}, 'username=user&password=user12345678&deskid=0&type=login');
+				var iconright = document.getElementById('iconright');
+				iconright.addEventListener('click', () => {
+					++desktop.icon.showPage;
+				});
+				iconright.addEventListener('mousedown', (e) => {
+					e.preventDefault();
+				});
+				iconright.addEventListener('mouseenter', () => {
+					iconright.style.backgroundColor = 'rgba(126, 126, 126, 0.3)';
+				});
+				iconright.addEventListener('mouseleave', () => {
+					iconright.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+				});
+				var iconleft = document.getElementById('iconleft');
+				iconleft.addEventListener('click', () => {
+					--desktop.icon.showPage;
+				});
+				iconleft.addEventListener('mousedown', (e) => {
+					e.preventDefault();
+				});
+				iconleft.addEventListener('mouseenter', () => {
+					iconleft.style.backgroundColor = 'rgba(126, 126, 126, 0.3)';
+				});
+				iconleft.addEventListener('mouseleave', () => {
+					iconleft.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+				});
+				desktop.onchoose = false;
+				desktop.chooseTop;
+				desktop.chooseLeft;
+				const choose = document.getElementById('choose');
+				document.getElementById('window').addEventListener('mousedown', (e) => {
+					desktop.onchoose = true;
+					choose.style.display = 'block';
+					choose.style.top = e.clientY + 'px';
+					choose.style.left = e.clientX + 'px';
+					desktop.chooseTop = e.clientY;
+					desktop.chooseLeft = e.clientX;
+					choose.style.height = e.clientY - desktop.chooseTop + 'px';
+					choose.style.width = e.clientX - desktop.chooseLeft + 'px';
+					root.style.setProperty('--window-z-index', '-1');
+					desktop.icon.obj.forEach((item) => {
+						item.choose(e);
+					});
+				});
+				bodyAddEvent('mousemove', (e) => {
+					if (!desktop.onchoose) {
+						return 0;
+					}
+					if (e.clientY - desktop.chooseTop > 0) {
+						choose.style.height = e.clientY - desktop.chooseTop + 'px';
+						choose.style.top = desktop.chooseTop + 'px';
+					} else {
+						choose.style.height = desktop.chooseTop - e.clientY + 'px';
+						choose.style.top = e.clientY + 'px';
+					}
+					if (e.clientX - desktop.chooseLeft > 0) {
+						choose.style.width = e.clientX - desktop.chooseLeft + 'px';
+						choose.style.left = desktop.chooseLeft + 'px';
+					} else {
+						choose.style.width = desktop.chooseLeft - e.clientX + 'px';
+						choose.style.left = e.clientX + 'px';
+					}
+				});
+				bodyAddEvent('mouseup', (e) => {
+					if (desktop.onchoose) {
+						desktop.onchoose = false;
+						choose.style.display = 'none';
+						root.style.setProperty('--window-z-index', 'auto');
+					}
+				});
+				var home = document.getElementById('home');
+				home.addEventListener('mouseenter', () => {
+					home.firstElementChild.style.backgroundColor = 'rgba(200, 200, 200, 0.3)';
+				});
+				home.addEventListener('mouseleave', () => {
+					home.firstElementChild.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+				});
+			}
+			window.onresize = () => {
+				iconSort();
+			}
+		</script>
+	</body>
+</html>

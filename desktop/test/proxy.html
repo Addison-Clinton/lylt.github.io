@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>proxy</title>
+		<script>
+		function get(url,fun){
+			var xmlhttp=new XMLHttpRequest();
+			xmlhttp.onreadystatechange=()=>{
+				if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				{
+					fun(xmlhttp.responseText);
+				}
+			}
+			xmlhttp.open("GET",url,true);
+			xmlhttp.send();
+		}
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/pw.js')
+					.then(function(registration) {
+						document.querySelector('#status').textContent = 'succeeded';
+						console.log(registration);
+					}).catch(function(error) {
+						document.querySelector('#status').textContent = error;
+					});
+			} else {
+				document.querySelector('#status').textContent ='浏览器不支持service worker';
+			}
+			window.onload = () => {
+				document.getElementById('goto').addEventListener('click', () => {
+					get(document.getElementById('url').value,(i)=>{
+						
+					});
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			<input type="text" id="url" />
+			<input type="button" id="goto" />
+		</form>
+		<div id="status"></div>
+	</body>
+</html>
